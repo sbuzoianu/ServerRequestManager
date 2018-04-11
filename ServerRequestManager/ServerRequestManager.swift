@@ -84,7 +84,6 @@ class ServerRequestManager: NSObject {
             else {
 
                 if let parseJSON = json {
-//                    print("parseJSON: \(parseJSON)")
                     let response: String = parseJSON[ServerRequestConstants.JSON.TAG_RESPONSE] as? String ?? ""
                     let message: String = parseJSON[ServerRequestConstants.JSON.TAG_MESSAGE] as? String ?? ""
                     
