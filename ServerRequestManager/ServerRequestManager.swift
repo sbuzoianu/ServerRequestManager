@@ -58,10 +58,11 @@ class ServerRequestManager: NSObject {
             print("error = \(error)\n")
 
             let json: NSDictionary?
+            
             do {
                 if(data != nil) {
                     print("data != nil")
-                    json = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? NSDictionary;
+                    json = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? NSDictionary
                 } else {
                     print("data == nil")
                     postCompleted(ServerRequestConstants.JSON.RESPONSE_ERROR, "An error has occured. Please try again later.", nil)
@@ -78,15 +79,26 @@ class ServerRequestManager: NSObject {
                     print("Error could not parse JSON: '\(jsonStr)'")
                     postCompleted(ServerRequestConstants.JSON.RESPONSE_ERROR, "An error has occured. Please try again later.", nil)
                 }
-                
 
             }
             else {
 
                 if let parseJSON = json {
-                    print("parseJSON: \(parseJSON)")
+//                    print("parseJSON: \(parseJSON)")
                     let response: String = parseJSON[ServerRequestConstants.JSON.TAG_RESPONSE] as? String ?? ""
                     let message: String = parseJSON[ServerRequestConstants.JSON.TAG_MESSAGE] as? String ?? ""
+                    
+                    if let jsonArray = parseJSON["raspuns"] as? NSArray {
+                        print("jsonArray = \(jsonArray)")
+                        for item in jsonArray {
+                            let itemDictionary = item as! NSDictionary
+                            print("email = \(itemDictionary["email"]!)")
+                            print("user = \(itemDictionary["user"]!) /n")
+
+                        }
+                        
+                    }
+
                     postCompleted(response, message, parseJSON)
                 }
                 else {
